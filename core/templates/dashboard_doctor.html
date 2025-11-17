@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Olá Dr(a). {{ doctor.user.get_full_name }}</h1>
+
+<h2 class="mt-4">Próximos Agendamentos</h2>
+<ul>
+  {% for a in upcoming %}
+    <li>
+      {{ a.start }} — {{ a.patient.get_full_name }} — {{ a.status }}
+      <form method="post" action="{% url 'change_status' a.id %}" style="display:inline">
+        {% csrf_token %}
+        <select name="status">
+          <option value="confirmado">Confirmar</option>
+          <option value="cancelado">Cancelar</option>
+          <option value="concluido">Concluir</option>
+        </select>
+        <button>Atualizar</button>
+      </form>
+    </li>
+  {% endfor %}
+</ul>
+
+<h3 class="mt-6">Gerenciar Horários (Slots)</h3>
+<a href="{% url 'manage_slots' %}">Ir para Slots</a>
+
+{% endblock %}

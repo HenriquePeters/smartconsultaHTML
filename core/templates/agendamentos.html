@@ -1,27 +1,68 @@
 {% extends 'base.html' %}
 {% block content %}
+<h2 class="text-2xl">Agenda</h2>
 
-<h1 class="text-3xl font-bold mb-4">Meus Agendamentos</h1>
+<div id='calendar'></div>
 
-<form method="post" class="mb-6">
-    {% csrf_token %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const calendarEl = document.getElementById('calendar');
 
-    <input type="date" name="data" required>
-    <input type="time" name="horario" required>
-    <input type="text" name="especialidade" placeholder="Especialidade" required>
-    <input type="text" name="medico" placeholder="Médico" required>
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'timeGridWeek',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'timeGridWeek,timeGridDay,dayGridMonth'
+    },
+    selectable: true,
+    select: function(info) {
+      const start = info.startStr;
+      const end = info.endStr;
 
-    <button class="bg-teal-600 text-white px-4 py-2 rounded">Agendar</button>
-</form>
+      if (!confirm(`Agendar para ${start}?`)) { return; }
 
-<ul>
-    {% for a in agenda %}
-        <li class="mb-2 p-3 bg-white shadow rounded">
-            <strong>{{ a.especialidade }}</strong> — {{ a.medico }}  
-            <br>
-            {{ a.data }} às {{ a.horario }}
-        </li>
+      // criar via API
+      fetch('{% url "api_appointments" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({
+          doctor: parseInt(prompt('ID do médico (veja a lista)')),
+          start: start,
+          end: end
+        })
+      }).then(res => {
+        if (res.ok) { calendar.refetchEvents(); }
+        else { alert('Erro ao criar agendamento'); }
+      });
+    },
+    events: {
+      url: '{% url "api_appointments" %}',
+      method: 'GET',
+      extraParams: {},
+      failure: function() {
+        alert('Erro ao carregar eventos');
+      }
+    },
+    eventDidMount: function(info) {
+        // estilizar ou tooltip
+    }
+  });
+
+  calendar.render();
+});
+</script>
+
+<div class="mt-6">
+  <h4>Médicos (IDs)</h4>
+  <ul>
+    {% for m in doctors %}
+      <li>{{ m.id }} — {{ m }}</li>
     {% endfor %}
-</ul>
+  </ul>
+</div>
 
 {% endblock %}

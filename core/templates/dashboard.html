@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-3xl font-bold text-teal-700 mb-6">Dashboard</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <a href="/agendamentos/"
+        class="bg-white shadow p-6 rounded hover:scale-105 transition">
+        <h3 class="text-xl font-bold text-teal-600">Agendar Consulta</h3>
+        <p class="text-gray-600 mt-2">Marque uma nova consulta rapidamente.</p>
+    </a>
+
+    <a href="/agendamentos/"
+        class="bg-white shadow p-6 rounded hover:scale-105 transition">
+        <h3 class="text-xl font-bold text-teal-600">Minhas Consultas</h3>
+        <p class="text-gray-600 mt-2">Veja todas as consultas agendadas.</p>
+    </a>
+
+    <a href="/accounts/password_reset/"
+        class="bg-white shadow p-6 rounded hover:scale-105 transition">
+        <h3 class="text-xl font-bold text-teal-600">Recuperar Senha</h3>
+        <p class="text-gray-600 mt-2">Redefina sua senha em poucos passos.</p>
+    </a>
+
+</div>
+{% endblock %}
