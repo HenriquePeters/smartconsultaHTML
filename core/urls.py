@@ -1,10 +1,11 @@
 from django.urls import path
-from . import views, api_views
+from . import views
+from .views_registration import register
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('agendamentos/', views.agendamentos, name='agendamentos'),
     path('dashboard/', views.dashboard, name='dashboard'),
-    # API
-    path('api/appointments/', api_views.AppointmentListCreateView.as_view(), name='api_appointments'),
+    path('agendamentos/', views.agendamentos, name='agendamentos'),
+    path('api/appointments/', views.AppointmentListCreateView.as_view(), name='api_appointments'),
+    path('accounts/register/', register, name='register'),
 ]

@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="text-2xl">Agenda</h2>
+<h2 class="text-2xl font-bold mb-4">Agenda</h2>
 
 <div id='calendar'></div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar');
-
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'timeGridWeek',
     headerToolbar: {
@@ -19,45 +18,33 @@ document.addEventListener('DOMContentLoaded', function() {
     select: function(info) {
       const start = info.startStr;
       const end = info.endStr;
-
-      if (!confirm(`Agendar para ${start}?`)) { return; }
-
-      // criar via API
+      const doctorId = prompt('Digite o ID do médico para agendar (veja lista abaixo):');
+      if (!doctorId) return;
       fetch('{% url "api_appointments" %}', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': '{{ csrf_token }}',
+          'X-CSRFToken': '{{ csrf_token }}'
         },
-        body: JSON.stringify({
-          doctor: parseInt(prompt('ID do médico (veja a lista)')),
-          start: start,
-          end: end
-        })
+        body: JSON.stringify({doctor: parseInt(doctorId), start: start, end: end})
       }).then(res => {
         if (res.ok) { calendar.refetchEvents(); }
-        else { alert('Erro ao criar agendamento'); }
+        else { res.text().then(t=>alert('Erro: '+t)); }
       });
     },
-    events: {
-      url: '{% url "api_appointments" %}',
-      method: 'GET',
-      extraParams: {},
-      failure: function() {
-        alert('Erro ao carregar eventos');
-      }
-    },
-    eventDidMount: function(info) {
-        // estilizar ou tooltip
+    events: function(fetchInfo, successCallback, failureCallback) {
+      fetch('{% url "api_appointments" %}').then(r=>r.json()).then(data=>{
+        const events = data.map(d=>({id:d.id, title:d.title, start:d.start, end:d.end}));
+        successCallback(events);
+      }).catch(e=>failureCallback(e));
     }
   });
-
   calendar.render();
 });
 </script>
 
 <div class="mt-6">
-  <h4>Médicos (IDs)</h4>
+  <h4 class="text-lg font-bold">Médicos (IDs)</h4>
   <ul>
     {% for m in doctors %}
       <li>{{ m.id }} — {{ m }}</li>

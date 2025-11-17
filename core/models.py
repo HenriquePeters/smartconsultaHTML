@@ -6,14 +6,13 @@ class Doctor(models.Model):
     crm = models.CharField(max_length=50, blank=True)
     specialty = models.CharField(max_length=120)
     bio = models.TextField(blank=True)
-    photo = models.ImageField(upload_to='doctors/', blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.get_full_name() or self.user.username} — {self.specialty}"
 
 class ScheduleSlot(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='slots')
-    weekday = models.IntegerField(choices=[(i, i) for i in range(0,7)])  # 0=segunda? escolha sua convenção
+    weekday = models.IntegerField(choices=[(i, i) for i in range(0,7)])
     start_time = models.TimeField()
     end_time = models.TimeField()
     duration_minutes = models.PositiveIntegerField(default=30)
@@ -35,7 +34,6 @@ class Appointment(models.Model):
     end = models.DateTimeField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='agendado')
     reason = models.TextField(blank=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

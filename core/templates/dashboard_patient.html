@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-3xl font-bold text-teal-700 mb-6">Meu Painel</h1>
+
+<h2 class="text-xl mb-4">Próximos agendamentos</h2>
+<ul class="space-y-3">
+{% for a in appts %}
+    <li class="bg-white p-4 shadow rounded">
+        <strong class="text-teal-700">{{ a.doctor }}</strong> — {{ a.start }}
+    </li>
+{% empty %}
+    <li>Nenhum agendamento</li>
+{% endfor %}
+</ul>
+{% endblock %}

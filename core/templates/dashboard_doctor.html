@@ -1,26 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Olá Dr(a). {{ doctor.user.get_full_name }}</h1>
+<h1 class="text-3xl font-bold text-teal-700 mb-6">Painel do Médico</h1>
 
-<h2 class="mt-4">Próximos Agendamentos</h2>
-<ul>
-  {% for a in upcoming %}
-    <li>
-      {{ a.start }} — {{ a.patient.get_full_name }} — {{ a.status }}
-      <form method="post" action="{% url 'change_status' a.id %}" style="display:inline">
-        {% csrf_token %}
-        <select name="status">
-          <option value="confirmado">Confirmar</option>
-          <option value="cancelado">Cancelar</option>
-          <option value="concluido">Concluir</option>
-        </select>
-        <button>Atualizar</button>
-      </form>
+<h2 class="text-xl mb-4">Próximos agendamentos</h2>
+<ul class="space-y-3">
+{% for a in upcoming %}
+    <li class="bg-white p-4 shadow rounded">
+        <strong>{{ a.start }}</strong> — {{ a.patient.get_full_name }} — {{ a.status }}
+        <form method="post" action="{% url 'dashboard' %}">{% csrf_token %}</form>
     </li>
-  {% endfor %}
+{% empty %}
+    <li>Nenhum agendamento</li>
+{% endfor %}
 </ul>
-
-<h3 class="mt-6">Gerenciar Horários (Slots)</h3>
-<a href="{% url 'manage_slots' %}">Ir para Slots</a>
-
 {% endblock %}

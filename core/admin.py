@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Doctor, ScheduleSlot, Appointment
-from django.utils.html import format_html
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):

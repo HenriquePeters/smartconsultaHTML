@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>SmartConsulta</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
 </head>
 <body class="bg-gray-100">
 
@@ -13,9 +16,7 @@
         <span class="text-3xl font-bold text-teal-700">SmartConsulta</span>
     </a>
 
-        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
-        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
-
+    <div>
         {% if user.is_authenticated %}
         <a href="/dashboard/" class="text-teal-700 mr-4 font-semibold">Dashboard</a>
         <a href="/agendamentos/" class="text-teal-700 mr-4 font-semibold">Agendamentos</a>
