@@ -1,0 +1,14 @@
+<h1>Agendamentos Registrados</h1>
+
+{% for item in lista %}
+    <p>
+        <strong>{{ item.nome }}</strong> - 
+        {{ item.especialidade }} - 
+        {{ item.data }} - 
+        {{ item.telefone }}
+    </p>
+{% empty %}
+    <p>Nenhum agendamento encontrado.</p>
+{% endfor %}
+
+<a href="/">Voltar</a>

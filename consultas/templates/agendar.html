@@ -1,0 +1,12 @@
+<h1>Agendar Consulta</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <input name="nome" placeholder="Seu nome" required><br>
+    <input name="telefone" placeholder="Telefone" required><br>
+    <input name="especialidade" placeholder="Especialidade" required><br>
+    <input type="date" name="data" required><br>
+    <button>Enviar</button>
+</form>
+
+<a href="/">Voltar</a>

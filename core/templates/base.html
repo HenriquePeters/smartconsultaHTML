@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartConsulta</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-50">
+
+<nav class="bg-white shadow p-4 flex justify-between">
+    <a href="/" class="flex items-center gap-2">
+        <img src="/static/logo.png" class="h-12" />
+        <span class="text-2xl font-bold">SmartConsulta</span>
+    </a>
+
+    {% if user.is_authenticated %}
+        <a href="/accounts/logout/" class="text-red-600">Sair</a>
+    {% else %}
+        <a href="/accounts/login/" class="text-teal-600">Entrar</a>
+    {% endif %}
+</nav>
+
+<div class="container mx-auto p-6">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-4">Meus Agendamentos</h1>
+
+<form method="post" class="mb-6">
+    {% csrf_token %}
+
+    <input type="date" name="data" required>
+    <input type="time" name="horario" required>
+    <input type="text" name="especialidade" placeholder="Especialidade" required>
+    <input type="text" name="medico" placeholder="Médico" required>
+
+    <button class="bg-teal-600 text-white px-4 py-2 rounded">Agendar</button>
+</form>
+
+<ul>
+    {% for a in agenda %}
+        <li class="mb-2 p-3 bg-white shadow rounded">
+            <strong>{{ a.especialidade }}</strong> — {{ a.medico }}  
+            <br>
+            {{ a.data }} às {{ a.horario }}
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
