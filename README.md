@@ -2,6 +2,7 @@ SmartConsulta - Django project
 
 Setup:
 1. python -m venv venv
+   venv\Scripts\activate
 2. venv\Scripts\activate   (Windows) or source venv/bin/activate
 3. pip install -r requirements.txt
 4. python manage.py migrate
